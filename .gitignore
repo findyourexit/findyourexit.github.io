@@ -1,24 +1,103 @@
-# build output
+# Build output
 dist/
 
-# generated types
+# Generated types
 .astro/
 
-# dependencies
+# Node modules (dependencies)
 node_modules/
 
-# logs
+# Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables
+# Environment variables
+*.env
 .env
 .env.production
 
-# macOS-specific files
+# MacOS-specific files
 .DS_Store
 
-# jetbrains setting folder
-.idea/
+# Misc
+*.tsbuildinfo
+.vercel
+.netlify
+_site/
+scripts/smoke/*-main/
+scripts/memory/project/src/pages/
+benchmark/projects/
+benchmark/results/
+test-results/
+package-lock.json
+.turbo/
+.eslintcache
+.pnpm-store
+packages/astro/src/**/*.prebuilt.ts
+packages/astro/src/**/*.prebuilt-dev.ts
+packages/astro/test/units/_temp-fixtures/*
+!packages/astro/test/units/_temp-fixtures/package.json
+packages/integrations/**/.netlify/
+
+# Content collection generated files
+packages/**/test/**/fixtures/**/.astro/
+packages/**/test/**/fixtures/**/env.d.ts
+packages/**/e2e/**/fixtures/**/.astro/
+packages/**/e2e/**/fixtures/**/env.d.ts
+examples/**/.astro/
+examples/**/env.d.ts
+
+*.code-workspace
+
+####################
+# JetBrains IDEs
+####################
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# AWS User-specific
+.idea/**/aws.xml
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# CMake
+cmake-build-*/
+
+# Mongo Explorer plugin
+.idea/**/mongoSettings.xml
+
+# File-based project format
+*.iws
+
+# IntelliJ
+out/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+.idea/replstate.xml
+
+# SonarLint plugin
+.idea/sonarlint/
+
+# Editor-based Rest Client
+.idea/httpRequests
