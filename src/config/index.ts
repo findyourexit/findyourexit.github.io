@@ -12,11 +12,11 @@ import { sourceLinks } from "./source";
 
 export const identity: Identity = {
   name: "Tom Larcher",
-  logo: "/img/tom-larcher.jpeg",
+  logo: "/img/tom-larcher.png",
   email: "tom.larcher@gmail.com",
 };
 
-export const openGraphImage: string = "/img/tom-larcher.jpeg";
+export const openGraphImage: string = "/img/tom-larcher.png";
 
 export const navBarLinks: NavBarLink[] = [
   {
@@ -89,11 +89,11 @@ export const aboutPageContent: AboutPageContent = {
       Senior Manager, Software Engineering at GoPro | Former Chief Technology Officer (CTO) at Forcite | Current obsessing over Kotlin Multiplatform & Compose Multiplatform | Based in Sydney, Australia
     `,
     image_l: {
-      url: "/img/tom-larcher.jpeg",
+      url: "/img/tom-larcher.png",
       alt: "Tom Larcher",
     },
     image_r: {
-      url: "/img/tom-larcher.jpeg",
+      url: "/img/tom-larcher-2023.jpeg",
       alt: "Tom Larcher",
     },
   },
