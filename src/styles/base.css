@@ -1,13 +1,15 @@
 html {
     background: #242424;
-    font-family: "DM Sans", sans-serif;
+    /*font-family: "DM Sans", sans-serif;*/
+    font-family: "DM Sans", monospace;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 }
 
 .navbar {
-    font-family: "DM Sans", sans-serif;
+    /*font-family: "DM Sans", sans-serif;*/
+    font-family: "DM Sans", monospace;
 }
 
 h1 {
