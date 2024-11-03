@@ -1,0 +1,114 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {nowPageContent, gitHubUserId, gitHubUserName} from "../config";
+import SoourceLinkBox from "../components/SocialLinkBox.astro";
+import {Icon} from "astro-icon/components";
+
+function formatDate(dateString: string) {
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
+    const date = new Date(dateString);
+    const dayName = days[date.getDay()];
+    const monthName = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const minutesStr = minutes < 10 ? "0" + minutes : minutes;
+
+    return `${dayName}, ${monthName} ${day}, ${year} ${hours}:${minutesStr} ${ampm}`;
+}
+
+const lastModified = formatDate(new Date().toISOString());
+---
+
+<Layout seo={nowPageContent.seo}>
+    <section class="mt-10 max-w-2xl mx-auto px-6">
+        <h1 class="text-3xl mb-1">{nowPageContent.title}</h1>
+        <p class="opacity-60 mb-10 subtitle">{nowPageContent.subtitle}</p>
+        <div class="mb-14">
+            <p class="mb-5 sm:text-left">
+                At the moment, I'm all about
+                <a class="gradient-link glowing-animation"
+                   href="https://www.jetbrains.com/kotlin-multiplatform/"
+                   target="_blank">Kotlin Multiplatform</a>.
+                <i>Unbelievably so...</i>
+            </p>
+            <p class="mb-5 sm:text-left">
+                My day job at GoPro is absolutely wild. Without going into too much depth - I've assembled a small team,
+                and we're building some <span class="gradient-link">damned cool stuff</span> which I hope to share
+                before long!
+            </p>
+            <p class="mb-5 sm:text-left">
+                Beyond work, things aren't much simpler. The kids are consistently keeping me on my toes, so I'm often
+                flat out on weekends too! Lately though, I've been finding a few pockets of time to work on some
+                personal projects, which I'm truly grateful for.
+            </p>
+            <p class="mb-5 sm:text-left">
+                When I get a chance, I like to contribute to open-source initiatives. I've been sporadically pushing
+                code to a number of projects orbiting around the <span class="gradient-link">Kotlin</span> ecosystem.
+                Did I mention I'm really vibing with <b>Kotlin Multiplatform</b>, right now? 😅
+            </p>
+        </div>
+        <div class="mb-14">
+            <p class="mb-5 sm:text-left alert-box">
+                <i>This page is inspired by
+                    <a href="https://nownownow.com/about"
+                       target="_blank"
+                       class="underline-hover">Derek Sivers</a>'s
+                    <span class="gradient-link glowing-animation">/now</span> page. Imagine something that's a little
+                    like an <b>About</b> page, but not as static... And also not as frequently updated as a conventional
+                    social media feed - this is <span class="gradient-link">that</span>!</i>
+            </p>
+        </div>
+        <div class="p-4 mb-14 sm:text-left opacity-60 group-hover:opacity-30 hover:!opacity-100 transition-opacity border border-dashed border-gray-300 rounded-lg space-y-2 hover:cursor-pointer">
+            <div class="flex items-center space-x-2">
+                <Icon name="mdi:calendar-clock"
+                      width={25}
+                      height={25}
+                      class="icon-inline"/>
+                <span>Last Modified: {lastModified}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <Icon name="mdi:map-marker-radius"
+                      width={25}
+                      height={25}
+                      class="icon-inline"/>
+                <span>Location: Sydney, Australia</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <Icon name="mdi:git"
+                      width={25}
+                      height={25}
+                      class="icon-inline"/>
+                <span>Committed by: <a href="https://github.com/findyourexit" target="_blank">@findyourexit</a></span>
+            </div>
+        </div>
+    </section>
+</Layout>
