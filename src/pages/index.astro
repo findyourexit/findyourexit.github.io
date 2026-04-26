@@ -1,0 +1,90 @@
+---
+import {Image} from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import {homePageContent, identity} from "../config";
+import SocialLink from "../components/SocialLink.astro";
+import Link from "../components/Link.astro";
+import {Icon} from "astro-icon/components";
+---
+
+<Layout seo={homePageContent.seo}>
+    <section class="mt-10 max-w-2xl mx-auto px-6">
+        <h1 class="text-3xl mb-1">{identity.name}</h1>
+        <p class="opacity-60 mb-10 subtitle">{homePageContent.role}</p>
+        <div class="flex flex-row flex-wrap gap-6 mb-8 items-center">
+            <Image src={identity.logo}
+                   alt={identity.name}
+                   width={125}
+                   height={125}
+                   loading="lazy"
+                   decoding="async"
+                   quality={100}
+                   densities={[1.5, 2]}
+                   class="rounded-full"
+                   style="object-fit: cover; width: 125px; height: 125px;"/>
+            <div class="group flex flex-col justify-center gap-2 w-fit">
+                {
+                    homePageContent.homeSocialLinks.map((link) => (
+                            <SocialLink title={link.title}
+                                        url={link.url}
+                                        icon={link.icon}
+                                        external={link.external}/>
+                    ))
+                }
+            </div>
+        </div>
+        <p class="max-w-2xl mb-8">
+            I'm a tech guy, driven by a passion for new <span class="gradient-link glowing-animation">technology </span>
+            and <span class="gradient-link glowing-animation">innovation</span>. 🧪
+            <br/><br/>
+            My greatest strength is a functional blend of <strong>technical expertise</strong> and <strong>executive
+            leadership</strong> skills — enabling me to quickly identify and implement effective solutions to complex
+            problems. 🧩 While I'm confident in my ability to deliver results, I attribute a large portion of my success
+            to the brilliant folks that I've been fortunate enough to work with. I'm a massive proponent for empowering
+            those around me. 💪🏻
+            <br/><br/>
+            Managing technical teams is where I <strong>thrive</strong> — fostering a culture of
+            <span class="gradient-link">continued growth</span>, while maintaining a consistent
+            <span class="gradient-link">results-oriented</span> approach.
+            <br/><br/>
+            With over two decades of coding experience, I'm committed to keeping my skills sharp. I'm never averse to
+            diving into the trenches, and pushing projects forward from the front-line. 🚀
+            <br/><br/>
+            My passions lie predominantly in technology, but beyond that, my greatest area of interest is
+            <span class="gradient-link">motorsport</span>.
+            <br/><br/>
+            I spend much of my spare time <strong>learning</strong>. 💭 I read an awful lot, though these days I seldom
+            get a chance to sink into a fiction novel. Typically, you'll find me consuming — <i>tech news, architecture,
+            design philosophies, org. thinking, articles on work-life balance, and loads more!</i> A central component
+            of my ethos is to <strong>apply what I learn</strong>, particularly in the context of business development,
+            effective engineering, and management.
+            <br/><br/>
+            Looking ahead, I'm driven to keep <span class="gradient-link">learning</span>, <span class="gradient-link">
+            creating</span>, and <span class="gradient-link">sharing</span>. Feel free to reach out — I'm always open to
+            connecting! 🤝
+        </p>
+        <div>
+            <blockquote cite="https://www.huxley.net/bnw/four.html">
+                <p>When you don't create things, you become defined by your tastes rather than ability. Your tastes only
+                    narrow & exclude people. So <strong>create</strong>.</p>
+            </blockquote>
+            <p><cite><strong>_why</strong></cite></p>
+        </div>
+        <p class="max-w-2xl mb-8">
+            <a class="gradient-link glowing-animation"
+               href="/about">@findyourexit</a>
+        </p>
+        <div class="flex items-center gap-4 group w-fit">
+            {
+                homePageContent.links.map((link) => (
+                        <Link
+                                text={link.title}
+                                href={link.url}
+                                external={link.external}
+                                icon={link.icon}
+                        />
+                ))
+            }
+        </div>
+    </section>
+</Layout>

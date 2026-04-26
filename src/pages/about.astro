@@ -1,0 +1,155 @@
+---
+import {Image} from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import {aboutPageContent} from "../config";
+import ResumeItem from "../components/ResumeItem.astro";
+import SocialLinkBox from "../components/SocialLinkBox.astro";
+import {Icon} from "astro-icon/components";
+---
+
+<Layout seo={aboutPageContent.seo}>
+    <section class="mt-10 max-w-2xl mx-auto px-6">
+        <h1 class="text-3xl mb-1">About Me</h1>
+        <p class="opacity-60 mb-10 subtitle">{aboutPageContent.subtitle}</p>
+        <div class="mb-14">
+            <p class="mb-5 sm:text-left">
+                I'm a lifelong technologist, having taken my first steps into the world of computing somewhere in the
+                early 90's.
+                <br/><br/>
+                How'd it all start? Damn, that's a tough one. 🤔
+                <br/><br/>
+                My journey began back before the Internet had become a thing in Australia. I was extremely fortunate —
+                growing up in a household with a computer, I was exposed to the world of technology at a very young age.
+                My father, whilst not necessarily a computer enthusiast, was rather familiar with them — jockeying the
+                operating system to do his bidding, using all the commonplace methods of the time, that'd likely seem
+                like utter madness to the younger cohorts of today's computer users.
+                <br/><br/>
+                It was madness though...
+                <br/><br/>
+                It was a DOS world, and Windows 3.1 was the new kid on the block. Software was built by wizards, and
+                games were played in 16 colors. Want to play some SkiFree? Sure, better get to digging up that floppy.
+                Things not quite going to plan? The three-finger salute (<kbd>Ctrl</kbd> + <kbd>Alt</kbd> +
+                <kbd>Del</kbd>) was a reflexive action for many.
+                <br/><br/>
+                It's hard to fathom what we put up with back then, but it was all we knew. It was a time of discovery,
+                of learning, and of growth — reminiscing, through the rose-tinted glasses of nostalgia, it's hard not to
+                feel a sense of longing for those times. Or perhaps, just the feelings that those fledgling experiences
+                with computers evoked.
+                <br/><br/>
+                But I digress... My dad was the guy that set the wheels in motion. It wasn't intentional, but it
+                happened all the same. I was a curious kid, and the IBM machine that sat in the entryway of our family
+                home was a beacon of intrigue. I distinctly recall the hardcore "thunk" of the power switch, as the
+                machine roared to life. The screen flickered as the boot sequence progressed, from the BIOS all the way
+                through to the familiar <code>C:\></code> prompt. It was a world of possibilities, and I was hooked.
+                <br/><br/>
+                It wasn't long before I discovered
+                <a class="underline-hover"
+                   href="https://en.wikipedia.org/wiki/BASIC"
+                   target="_blank">BASIC</a>,
+                and with that, I commenced my ascent (descent?) into the world of programming.
+                <br/><br/>
+                Years passed, and my interest in technology only grew. I, like many, was introduced to video games sunk
+                countless hours into them. A distraction from more productive pursuits perhaps, but the games
+                themselves would only serve as kindling for a fire that would continue to burn off into my adult life.
+                <br/><br/>
+                Prior to finishing primary school, I'd gotten in the habit of repurposing old discarded computers
+                (typically i486s,
+                <Icon name="mdi:desktop-classic"
+                      width={25}
+                      height={25}
+                      class="icon-inline"/>
+                Pentium IIs, etc.) and setting up all kinds of networks between them. Sometimes, I'd
+                utilise a null-model to 1v1 with my brother over a serial connection, and at other times, I'd source a
+                hub and some cheap NICs so that I could host a 4-player game of CNC Red Alert. Those times were just the
+                best!
+                <br/><br/>
+                By the time I hit high school, I was pretty clued up on most things computer-related. I continued
+                building my own machines, obsessing over games, and learning how to code. I'd dabbled in a few languages
+                by this point, but it wasn't until I discovered C++ that I truly felt everything click into place.
+                <br/><br/>
+                Like all intrepid young programmers, I set out to build a game.
+                <br/><br/>
+                This is a <span class="gradient-link glowing-animation">work-in-progress</span>, and will be updated as
+                time permits. ⏳
+            </p>
+        </div>
+        <div class="flex flex-col sm:flex-row">
+            <Image
+                    id="about-image-left"
+                    src={aboutPageContent.about.image_l.url}
+                    alt={aboutPageContent.about.image_l.alt}
+                    width={350}
+                    height={250}
+                    loading="lazy"
+                    decoding="async"
+                    quality={100}
+                    densities={[1.5, 2]}
+                    class="w-[350px] h-[250px] object-cover rounded-xl sm:-rotate-6 sm:block image-effect"
+            />
+            <Image
+                    id="about-image-right"
+                    src={aboutPageContent.about.image_r.url}
+                    alt={aboutPageContent.about.image_r.alt}
+                    width={150}
+                    height={250}
+                    loading="lazy"
+                    decoding="async"
+                    quality={100}
+                    densities={[1.5, 2]}
+                    class="hidden w-[150px] h-[250px] object-cover rounded-xl rotate-6 mx-auto sm:ml-auto sm:block image-effect"
+            />
+        </div>
+    </section>
+
+    <section class="mt-10 max-w-2xl mx-auto px-6">
+        <div class="mb-14">
+            <p class="mb-5 sm:text-left">
+
+            </p>
+        </div>
+    </section>
+
+    <section class="my-20 mt-32 max-w-2xl mx-auto px-6 sm:flex sm:gap-16">
+        <h2 class="mb-8 sm:mb-0 opacity-60">Work</h2>
+        <div>
+            <div class="mb-6">
+                I've got quite a few tools in my belt, but at the moment, I'm particularly fond of
+                <span class="gradient-link glowing-animation">Kotlin</span>, <span
+                    class="gradient-link glowing-animation">Kotlin Multiplatform</span>, and <span
+                    class="gradient-link glowing-animation">Compose Multiplatform</span> – <i>it's pretty clear that I'm
+                jazzing in the cross-platform mobile engineering space, at the moment!</i>
+            </div>
+            <div class="grid grid-cols-1 group">
+                {aboutPageContent.work.items.map((item) =>
+                        <ResumeItem {...item}/>)}
+            </div>
+        </div>
+    </section>
+    <section class="mt-32 max-w-2xl mx-auto px-6 sm:flex sm:gap-16">
+        <h2 class="mb-8 sm:mb-0 opacity-60">Connect</h2>
+        <div>
+            <div class="mb-6">
+                Your best bet for getting a hold of me at the moment is probably via
+                <a href="https://www.linkedin.com/in/tom-larcher"
+                   target="_blank"
+                   class="underline-hover">LinkedIn</a>
+                though you're welcome to follow me on <a
+                    href="https://github.com/findyourexit"
+                    target="_blank"
+                    class="underline-hover">Github</a>
+                if you'd like to keep an eye on what OSS I'm presently contributing to (if any!). While there's not much
+                to show on there as yet – you can also find me on
+                <a href="https://peerlist.io/tomlarcher"
+                   target="_blank"
+                   class="underline-hover">Peerlist</a>.
+            </div>
+            <div class="grid grid-cols-2 gap-2 group">
+                {
+                    aboutPageContent.connect.links.map((item) => (
+                            <SocialLinkBox {...item}/>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+</Layout>
