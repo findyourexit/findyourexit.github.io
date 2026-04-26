@@ -1,172 +1,183 @@
-html {
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-gray-bg: #2e2e2e;
+}
+
+/*
+ * Base element/global resets — must live in @layer base so Tailwind
+ * utility classes (which are in @layer utilities) can override them.
+ */
+@layer base {
+  html {
     background: #242424;
-    /*font-family: "DM Sans", sans-serif;*/
     font-family: "DM Sans", monospace;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-}
+  }
 
-.navbar {
-    /*font-family: "DM Sans", sans-serif;*/
-    font-family: "DM Sans", monospace;
-}
-
-h1 {
+  h1 {
     font-family: "Kanit", sans-serif;
     font-weight: 400;
     font-optical-sizing: auto;
-}
+  }
 
-.subtitle {
-    color: #ffe895;
-    opacity: 0.8;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  /*
+   * Project-wide defaults. Tailwind preflight already resets margin/padding
+   * and sets box-sizing: border-box, so we only need our color + smoothing.
+   */
+  * {
     -webkit-font-smoothing: antialiased;
     color: #c9c9c9;
+  }
+
+  code {
+    font-family:
+      Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+      Bitstream Vera Sans Mono, Courier New, monospace;
+  }
+
+  blockquote p::before {
+    content: "\201C";
+  }
+
+  blockquote p::after {
+    content: "\201D";
+  }
+
+  blockquote + p {
+    text-align: right;
+  }
 }
 
-code {
-    font-family: Menlo,
-    Monaco,
-    Lucida Console,
-    Liberation Mono,
-    DejaVu Sans Mono,
-    Bitstream Vera Sans Mono,
-    Courier New,
-    monospace;
-}
+/*
+ * Project component classes (used directly in markup). Lives in
+ * @layer components so utilities still win when both are applied.
+ */
+@layer components {
+  .navbar {
+    font-family: "DM Sans", monospace;
+  }
 
-.hover-underline {
+  .subtitle {
+    color: #ffe895;
+    opacity: 0.8;
+  }
+
+  .hover-underline {
     text-decoration: underline 1px rgba(0, 0, 0, 0);
     text-underline-offset: 5px;
     transition: text-decoration-color 300ms;
-}
+  }
 
-.post:hover .hover-underline {
+  .post:hover .hover-underline {
     text-decoration-color: rgba(255, 255, 255, 1);
-}
+  }
 
-@keyframes glowingText {
-    0% {
-        filter: brightness(100%);
-    }
-    50% {
-        filter: brightness(150%);
-    }
-    100% {
-        filter: brightness(100%);
-    }
-}
-
-.glowing-animation {
+  .glowing-animation {
     animation: glowingText 2s infinite;
-}
+  }
 
-.icon-inline {
-    display: inline-block; /* Ensures the icon is inline */
-    vertical-align: middle; /* Centers the icon vertically with adjacent text */
-    margin-right: 4px; /* Optional: adds some space between the icon and the text */
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.icon-spin {
-    animation: spin 2s linear infinite;
-}
-
-#clickSong,
-#refreshSong {
-    cursor: pointer;
-}
-
-.gradient-link {
-    font-weight: bold;
-    background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(to right, #00abda, #1476ff);
-}
-
-.gradient-link:hover::after {
-    background-image: linear-gradient(to right, #00abda, #1476ff);
-}
-
-.underline-hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    opacity: 60%;
-    transition: opacity 0.3s;
-}
-
-@keyframes glow {
-    0%,
-    100% {
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0); /* Invisible shadow */
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(0, 171, 218, 0.6); /* Glowing effect */
-    }
-}
-
-.image-music-effect {
-    border-color: #00abda;
-    cursor: pointer;
-    animation: glow 2s infinite ease-in-out;
-}
-
-.image-effect:hover {
-    border-color: #00abda;
-    transform: scale(1.05);
-    cursor: pointer;
-    animation: glow 2s infinite ease-in-out;
-}
-
-.underline-hover:hover {
-    opacity: 100%;
-}
-
-.icon-inline {
+  .icon-inline {
     display: inline-block;
     width: 25px;
     height: 25px;
     vertical-align: middle;
-}
+    margin-right: 4px;
+  }
 
-div:has(> blockquote) {
+  .icon-spin {
+    animation: spin 2s linear infinite;
+  }
+
+  #clickSong,
+  #refreshSong {
+    cursor: pointer;
+  }
+
+  .gradient-link {
+    font-weight: bold;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #00abda, #1476ff);
+  }
+
+  .gradient-link:hover::after {
+    background-image: linear-gradient(to right, #00abda, #1476ff);
+  }
+
+  .underline-hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    opacity: 60%;
+    transition: opacity 0.3s;
+  }
+
+  .underline-hover:hover {
+    opacity: 100%;
+  }
+
+  .image-music-effect {
+    border-color: #00abda;
+    cursor: pointer;
+    animation: glow 2s infinite ease-in-out;
+  }
+
+  .image-effect:hover {
+    border-color: #00abda;
+    transform: scale(1.05);
+    cursor: pointer;
+    animation: glow 2s infinite ease-in-out;
+  }
+
+  div:has(> blockquote) {
     background-color: rgba(255, 255, 255, 0.05);
     margin: 10px auto;
     padding: 15px;
     border-radius: 10px;
     font-style: italic;
-}
+  }
 
-blockquote p::before {
-    content: '\201C';
-}
-
-blockquote p::after {
-    content: '\201D';
-}
-
-blockquote + p {
-    text-align: right;
-}
-
-.alert-box {
+  .alert-box {
     background-color: rgba(255, 255, 255, 0.05);
     margin: 10px auto;
     padding: 15px;
     border-radius: 10px;
+  }
+}
+
+/*
+ * Keyframes must live at the top level (cannot be nested inside @layer).
+ */
+@keyframes glowingText {
+  0% {
+    filter: brightness(100%);
+  }
+  50% {
+    filter: brightness(150%);
+  }
+  100% {
+    filter: brightness(100%);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 171, 218, 0.6);
+  }
 }

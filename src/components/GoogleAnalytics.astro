@@ -5,9 +5,11 @@ const measurementId = props.measurementId;
 ---
 
 <script
+  is:inline
   type="text/partytown"
   src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}></script>
 <script
+  is:inline
   type="text/partytown"
   data-ga-measurement-id={measurementId}
   id="ga-init"

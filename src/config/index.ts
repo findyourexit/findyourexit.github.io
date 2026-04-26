@@ -12,7 +12,7 @@ import { sourceLinks } from "./source";
 
 export const identity: Identity = {
   name: "Tom Larcher",
-  logo: "/img/tom-larcher.png",
+  logo: "/img/tom-larcher-2026.png",
   email: "tom.larcher@gmail.com",
 };
 
