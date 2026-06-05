@@ -1,10 +1,9 @@
-
 # 👋🏻 Tom Larcher's Personal Website
 
 > [!NOTE]
 > This is the source code for my personal website, [tomlarcher.com](https://tomlarcher.com/). The site is built with [Astro](https://astro.build/), a new static site generator that's blazing fast and fun to work with.
-> 
-> ☢️ ***While the site is live, the source code remains a work in progress.***
+>
+> ☢️ **_While the site is live, the source code remains a work in progress._**
 
 ## 🧞 Commands
 

@@ -1,0 +1,326 @@
+---
+import { Icon } from "astro-icon/components";
+import type { OssProject } from "../types/config";
+
+type Props = OssProject;
+
+const {
+  title,
+  description,
+  details,
+  url,
+  language,
+  framework,
+  runtime,
+  status,
+  capacity,
+  highlights,
+  stars,
+  license,
+  updated,
+  homepage,
+  featured,
+  tags,
+} = Astro.props;
+
+// GitHub-ish language accent colours; falls back to the site brand blue.
+const languageColor: Record<string, string> = {
+  Rust: "#dea584",
+  Kotlin: "#a97bff",
+  TypeScript: "#3178c6",
+  JavaScript: "#f1e05a",
+  Swift: "#f05138",
+  Go: "#00add8",
+  Python: "#3572a5",
+};
+const accent = (language && languageColor[language]) || "#1476ff";
+
+// Derive the "owner/repo" slug from the GitHub URL so the page can refresh
+// stars / license / last-active live on load (progressive enhancement).
+const repoMatch = url.match(/github\.com\/([^/]+\/[^/]+?)(?:\.git)?\/?$/i);
+const repoSlug = repoMatch ? repoMatch[1] : null;
+
+// Status indicator colour.
+const statusColor: Record<string, string> = {
+  Active: "#4ade80",
+  Maintenance: "#60a5fa",
+  Experimental: "#facc15",
+  Paused: "#fb923c",
+  Archived: "#9ca3af",
+};
+
+// Maintainer roles get the loud brand badge; lighter roles get a subtle one.
+const isLead = capacity === "Author" || capacity === "Maintainer";
+
+// Tech "meta" chips, skipping any that weren't supplied.
+const meta = [
+  { icon: "mdi:layers-triple", value: framework },
+  { icon: "mdi:cog", value: runtime },
+].filter((m) => Boolean(m.value));
+
+// Relative "last active" label from an ISO date.
+function lastActive(iso?: string): string | null {
+  if (!iso) return null;
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return null;
+  const days = Math.floor((Date.now() - then) / 86_400_000);
+  if (days <= 1) return "active today";
+  if (days < 30) return `active ${days}d ago`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return `active ${months}mo ago`;
+  const years = Math.floor(months / 12);
+  return `active ${years}y ago`;
+}
+const active = lastActive(updated);
+
+const formattedStars =
+  typeof stars === "number" && stars >= 1000
+    ? `${(stars / 1000).toFixed(1)}k`
+    : stars?.toString();
+const showStars = typeof stars === "number" && stars > 0;
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={[
+    "oss-card group/card relative block overflow-hidden rounded-xl border bg-white/[0.02] p-5 transition-all duration-300",
+    "border-white/15 group-hover:opacity-40 hover:!opacity-100 hover:border-white/40 hover:bg-white/[0.04]",
+    featured && "is-featured",
+  ]}
+  style={`--accent:${accent};`}
+  data-oss-repo={repoSlug}
+>
+  {/* Language-coloured accent rail down the left edge. */}
+  <span
+    class="pointer-events-none absolute inset-y-0 left-0 w-[3px] opacity-70 transition-opacity duration-300 group-hover/card:opacity-100"
+    style={`background:${accent};`}></span>
+
+  <div class="flex items-start justify-between gap-4">
+    <div class="flex items-center gap-2.5">
+      <span
+        class="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+        style={`background:${accent};box-shadow:0 0 8px ${accent};`}></span>
+      <h3 class="text-lg font-medium hover-underline">{title}</h3>
+      {
+        featured && (
+          <span class="inline-flex items-center gap-1 rounded-full border border-yellow-300/40 px-2 py-0.5 text-[10px] uppercase tracking-wide text-yellow-200">
+            <Icon name="mdi:star-four-points" width={11} height={11} />
+            Spotlight
+          </span>
+        )
+      }
+    </div>
+    <div
+      class="rotate-45 opacity-50 shrink-0 transition-transform duration-300 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 group-hover/card:opacity-100"
+    >
+      <Icon name="mdi:arrow-up" width={20} height={20} />
+    </div>
+  </div>
+
+  <div class="mt-2 flex flex-wrap items-center gap-2">
+    {
+      capacity && (
+        <span
+          class:list={[
+            "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium",
+            isLead ? "text-white" : "border border-white/20 opacity-70",
+          ]}
+          style={isLead ? `background:${accent};` : undefined}
+        >
+          <Icon
+            name={isLead ? "mdi:shield-star" : "mdi:source-branch"}
+            width={13}
+            height={13}
+          />
+          {capacity}
+        </span>
+      )
+    }
+    {
+      language && (
+        <span class="inline-flex items-center gap-1.5 text-xs opacity-70">
+          <span
+            class="inline-block h-2 w-2 rounded-full"
+            style={`background:${accent};`}
+          />
+          {language}
+        </span>
+      )
+    }
+    {
+      status && (
+        <span class="inline-flex items-center gap-1.5 text-xs opacity-60">
+          <span
+            class="inline-block h-2 w-2 rounded-full"
+            style={`background:${statusColor[status] ?? "#9ca3af"};`}
+          />
+          {status}
+        </span>
+      )
+    }
+  </div>
+
+  <p class="oss-desc mt-3 text-sm opacity-70">{description}</p>
+
+  {/* Extended content — hidden when collapsed, revealed on hover. */}
+  <div class="oss-expand">
+    {details && <p class="pt-3 text-sm opacity-70">{details}</p>}
+    {
+      highlights && highlights.length > 0 && (
+        <ul class="pt-3 space-y-1.5">
+          {highlights.map((h) => (
+            <li class="flex items-start gap-2 text-sm opacity-75">
+              <Icon
+                name="mdi:flash"
+                width={15}
+                height={15}
+                class="mt-0.5 shrink-0"
+                style={`color:${accent};`}
+              />
+              <span set:html={h.replace(/`([^`]+)`/g, "<code>$1</code>")} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      meta.length > 0 && (
+        <div class="pt-4 flex flex-wrap gap-2">
+          {meta.map((m) => (
+            <span class="inline-flex items-center gap-1.5 rounded-md bg-gray-bg px-2.5 py-1 text-xs opacity-80">
+              <Icon name={m.icon} width={14} height={14} />
+              {m.value}
+            </span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+
+  {
+    tags && tags.length > 0 && (
+      <div class="oss-tags mt-3 flex gap-2">
+        {tags.map((tag) => (
+          <span class="shrink-0 whitespace-nowrap rounded-md border border-white/15 px-2.5 py-1 text-xs opacity-55">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    (showStars || license || active || homepage || repoSlug) && (
+      <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-white/10 pt-3 text-xs opacity-55">
+        <span
+          data-oss-stars
+          class="inline-flex items-center gap-1"
+          style={showStars ? undefined : "display:none"}
+        >
+          <Icon name="mdi:star" width={14} height={14} />
+          <span data-oss-stars-value>{formattedStars}</span>
+        </span>
+        <span
+          data-oss-license
+          class="inline-flex items-center gap-1"
+          style={license ? undefined : "display:none"}
+        >
+          <Icon name="mdi:scale-balance" width={14} height={14} />
+          <span data-oss-license-value>{license}</span>
+        </span>
+        <span
+          data-oss-active
+          class="inline-flex items-center gap-1"
+          style={active ? undefined : "display:none"}
+        >
+          <Icon name="mdi:history" width={14} height={14} />
+          <span data-oss-active-value>{active}</span>
+        </span>
+        {homepage && (
+          <span class="inline-flex items-center gap-1">
+            <Icon name="mdi:link-variant" width={14} height={14} />
+            Project site
+          </span>
+        )}
+      </div>
+    )
+  }
+</a>
+
+<style>
+  /* A soft, language-tinted glow on hover — building on the existing
+     group-hover rollover rather than replacing it. */
+  .oss-card:hover {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent),
+      0 12px 30px -12px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+
+  /* Spotlight projects get a permanent, gentle accent wash + glow. */
+  .oss-card.is-featured {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 55%
+    );
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .oss-card code {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.85em;
+  }
+
+  /* Short description: capped at 3 lines with an ellipsis. Height is natural
+     (no reserved blank space) so collapsed cards stay tight. */
+  .oss-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+
+  /* On hover, let the description grow to its full length too. */
+  .oss-card:hover .oss-desc,
+  .oss-card:focus-within .oss-desc {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+  }
+
+  /* Extended content collapses to nothing, then expands on hover. */
+  .oss-expand {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.4s ease,
+      opacity 0.3s ease;
+  }
+
+  .oss-card:hover .oss-expand,
+  .oss-card:focus-within .oss-expand {
+    max-height: 40rem;
+    opacity: 1;
+  }
+
+  /* Tags stay on a single row and scroll horizontally when they overflow,
+     with a soft fade hinting that there's more to the right. */
+  .oss-tags {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
+    mask-image: linear-gradient(to right, #000 88%, transparent);
+  }
+
+  .oss-tags::-webkit-scrollbar {
+    display: none; /* Chrome / Safari */
+  }
+</style>
