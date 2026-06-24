@@ -1,10 +1,10 @@
 import type {OssProject} from "../types/config";
 
 /**
- * A curated collection of open-source projects I maintain or contribute to.
+ * A curated collection of some open-source projects I maintain or contribute to.
  *
- * Hand-curated — every field other than `title`, `description` and `url` is
- * optional. Supply only the context that's relevant to each project.
+ * Hand-curated — every field other than `title`, `description` and `url` is optional. Supply only the context that's
+ * relevant to each project.
  */
 export const ossProjects: OssProject[] = [
     {

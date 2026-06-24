@@ -210,7 +210,7 @@ export const ossPageContent: OssPageContent = {
     },
     title: "Open Source",
     subtitle:
-        "A curated collection of the projects I maintain and contribute to out in the open.",
+        "A curated collection of some projects I maintain and contribute to out in the open.",
     projects: ossProjects,
 };
 
