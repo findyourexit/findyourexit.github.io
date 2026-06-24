@@ -1,147 +1,147 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import {ossPageContent} from "../config";
+import { ossPageContent } from "../config";
 import OssProjectCard from "../components/OssProjectCard.astro";
-import {Icon} from "astro-icon/components";
+import { Icon } from "astro-icon/components";
 ---
 
 <Layout seo={ossPageContent.seo}>
-    <section class="mt-10 max-w-2xl mx-auto px-6">
-        <h1 class="text-3xl mb-1">{ossPageContent.title}</h1>
-        <p class="opacity-60 mb-14 subtitle">{ossPageContent.subtitle}</p>
+  <section class="mt-10 max-w-2xl mx-auto px-6">
+    <h1 class="text-3xl mb-1">{ossPageContent.title}</h1>
+    <p class="opacity-60 mb-14 subtitle">{ossPageContent.subtitle}</p>
 
-        <div class="grid grid-cols-1 gap-4 mb-14 group">
-            {
-                ossPageContent.projects.map((project) => (
-                        <OssProjectCard {...project}/>
-                ))
-            }
-        </div>
+    <div class="grid grid-cols-1 gap-4 mb-14 group">
+      {
+        ossPageContent.projects.map((project) => (
+          <OssProjectCard {...project} />
+        ))
+      }
+    </div>
 
-        <div
-                class="p-4 mb-10 sm:text-left opacity-60 hover:!opacity-100 transition-opacity border border-dashed border-gray-300 rounded-lg flex items-center gap-2"
-        >
-            <Icon name="mdi:github" width={25} height={25} class="icon-inline"/>
-            <span>
+    <div
+      class="p-4 mb-10 sm:text-left opacity-60 hover:!opacity-100 transition-opacity border border-dashed border-gray-300 rounded-lg flex items-center gap-2"
+    >
+      <Icon name="mdi:github" width={25} height={25} class="icon-inline" />
+      <span>
         Want a fuller picture? Browse most of what I'm tinkering with on
         <a
-                href="https://github.com/findyourexit"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="underline-hover">GitHub</a
+          href="https://github.com/findyourexit"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline-hover">GitHub</a
         >.
       </span>
-        </div>
-    </section>
+    </div>
+  </section>
 </Layout>
 
 <script>
-    // Progressively enhance the build-time snapshot with live GitHub data
-    // (stars, license, last-active). The static values render instantly and act
-    // as a fallback if the API is unreachable or rate-limited.
-    const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+  // Progressively enhance the build-time snapshot with live GitHub data
+  // (stars, license, last-active). The static values render instantly and act
+  // as a fallback if the API is unreachable or rate-limited.
+  const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 
-    function relativeActive(iso: string | null): string | null {
-        if (!iso) return null;
-        const then = new Date(iso).getTime();
-        if (Number.isNaN(then)) return null;
-        const days = Math.floor((Date.now() - then) / 86_400_000);
-        if (days <= 1) return "active today";
-        if (days < 30) return `active ${days}d ago`;
-        const months = Math.floor(days / 30);
-        if (months < 12) return `active ${months}mo ago`;
-        return `active ${Math.floor(months / 12)}y ago`;
+  function relativeActive(iso: string | null): string | null {
+    if (!iso) return null;
+    const then = new Date(iso).getTime();
+    if (Number.isNaN(then)) return null;
+    const days = Math.floor((Date.now() - then) / 86_400_000);
+    if (days <= 1) return "active today";
+    if (days < 30) return `active ${days}d ago`;
+    const months = Math.floor(days / 30);
+    if (months < 12) return `active ${months}mo ago`;
+    return `active ${Math.floor(months / 12)}y ago`;
+  }
+
+  function formatStars(n: number): string {
+    return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+  }
+
+  type RepoData = {
+    stars: number | null;
+    license: string | null;
+    pushed: string | null;
+  };
+
+  async function fetchRepo(slug: string): Promise<RepoData> {
+    const key = `oss:${slug}`;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        const cached = JSON.parse(raw);
+        if (cached && Date.now() - cached.t < CACHE_TTL) return cached.d;
+      }
+    } catch {
+      /* ignore storage errors */
     }
 
-    function formatStars(n: number): string {
-        return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+    const res = await fetch(`https://api.github.com/repos/${slug}`, {
+      headers: { Accept: "application/vnd.github+json" },
+    });
+    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+    const j = await res.json();
+    const spdx = j.license && j.license.spdx_id;
+    const d: RepoData = {
+      stars: typeof j.stargazers_count === "number" ? j.stargazers_count : null,
+      license: spdx && spdx !== "NOASSERTION" ? spdx : null,
+      pushed: j.pushed_at ?? null,
+    };
+    try {
+      localStorage.setItem(key, JSON.stringify({ t: Date.now(), d }));
+    } catch {
+      /* ignore storage errors */
     }
+    return d;
+  }
 
-    type RepoData = {
-        stars: number | null;
-        license: string | null;
-        pushed: string | null;
+  function applyRepo(card: Element, d: RepoData) {
+    const setSlot = (
+      wrap: string,
+      value: string,
+      show: boolean,
+      valueSel?: string,
+    ) => {
+      const el = card.querySelector<HTMLElement>(wrap);
+      if (!el) return;
+      if (show) {
+        const target = valueSel ? el.querySelector<HTMLElement>(valueSel) : el;
+        if (target) target.textContent = value;
+        el.style.display = "";
+      } else {
+        el.style.display = "none";
+      }
     };
 
-    async function fetchRepo(slug: string): Promise<RepoData> {
-        const key = `oss:${slug}`;
-        try {
-            const raw = localStorage.getItem(key);
-            if (raw) {
-                const cached = JSON.parse(raw);
-                if (cached && Date.now() - cached.t < CACHE_TTL) return cached.d;
-            }
-        } catch {
-            /* ignore storage errors */
-        }
-
-        const res = await fetch(`https://api.github.com/repos/${slug}`, {
-            headers: {Accept: "application/vnd.github+json"},
-        });
-        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-        const j = await res.json();
-        const spdx = j.license && j.license.spdx_id;
-        const d: RepoData = {
-            stars: typeof j.stargazers_count === "number" ? j.stargazers_count : null,
-            license: spdx && spdx !== "NOASSERTION" ? spdx : null,
-            pushed: j.pushed_at ?? null,
-        };
-        try {
-            localStorage.setItem(key, JSON.stringify({t: Date.now(), d}));
-        } catch {
-            /* ignore storage errors */
-        }
-        return d;
+    if (d.stars !== null) {
+      setSlot(
+        "[data-oss-stars]",
+        formatStars(d.stars),
+        d.stars > 0,
+        "[data-oss-stars-value]",
+      );
     }
-
-    function applyRepo(card: Element, d: RepoData) {
-        const setSlot = (
-            wrap: string,
-            value: string,
-            show: boolean,
-            valueSel?: string,
-        ) => {
-            const el = card.querySelector<HTMLElement>(wrap);
-            if (!el) return;
-            if (show) {
-                const target = valueSel ? el.querySelector<HTMLElement>(valueSel) : el;
-                if (target) target.textContent = value;
-                el.style.display = "";
-            } else {
-                el.style.display = "none";
-            }
-        };
-
-        if (d.stars !== null) {
-            setSlot(
-                "[data-oss-stars]",
-                formatStars(d.stars),
-                d.stars > 0,
-                "[data-oss-stars-value]",
-            );
-        }
-        if (d.license !== null) {
-            setSlot(
-                "[data-oss-license]",
-                d.license,
-                true,
-                "[data-oss-license-value]",
-            );
-        }
-        const active = relativeActive(d.pushed);
-        if (active) {
-            setSlot("[data-oss-active]", active, true, "[data-oss-active-value]");
-        }
+    if (d.license !== null) {
+      setSlot(
+        "[data-oss-license]",
+        d.license,
+        true,
+        "[data-oss-license-value]",
+      );
     }
+    const active = relativeActive(d.pushed);
+    if (active) {
+      setSlot("[data-oss-active]", active, true, "[data-oss-active-value]");
+    }
+  }
 
-    const cards = document.querySelectorAll<HTMLElement>("[data-oss-repo]");
-    cards.forEach(async (card) => {
-        const slug = card.dataset.ossRepo;
-        if (!slug) return;
-        try {
-            applyRepo(card, await fetchRepo(slug));
-        } catch {
-            /* keep the static snapshot on any failure */
-        }
-    });
+  const cards = document.querySelectorAll<HTMLElement>("[data-oss-repo]");
+  cards.forEach(async (card) => {
+    const slug = card.dataset.ossRepo;
+    if (!slug) return;
+    try {
+      applyRepo(card, await fetchRepo(slug));
+    } catch {
+      /* keep the static snapshot on any failure */
+    }
+  });
 </script>
