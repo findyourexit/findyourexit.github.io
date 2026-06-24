@@ -8,6 +8,10 @@ import tailwindcss from "@tailwindcss/vite";
 // https://astro.build/config
 export default defineConfig({
   site: "https://tomlarcher.com",
+  // Preserve HTML-aware whitespace between inline elements. Astro v7 changed the
+  // `compressHTML` default to 'jsx', which strips the spaces around inline links
+  // in prose (e.g. "technology and" -> "technologyand").
+  compressHTML: true,
   integrations: [
     icon(),
     sitemap(),
