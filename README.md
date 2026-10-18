@@ -9,15 +9,24 @@
 
 All commands are run from the root of the project, from a terminal:
 
+The project uses TypeScript 7 with Astro's experimental
+[`@astrojs/ts-content-mapper`](https://github.com/withastro/astro/tree/main/packages/language-tools/ts-content-mapper#usage).
+The mapper requires TypeScript 7.1+, so the compiler is pinned to
+`7.1.0-dev.20261018.1` rather than stable 7.0.2. This is a prerelease toolchain.
+`npm run typecheck` generates Astro types with `astro sync`, then runs native
+`tsc --noEmit --runExternalCode` to check TypeScript and `.astro` files.
+`--runExternalCode` explicitly permits the mapper to execute during compilation.
+The production build runs the same check first; `astro check` is no longer used.
+
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
 | `npm install`             | Installs dependencies                            |
 | `npm run dev`             | Starts local dev server at `localhost:4321`      |
 | `npm run build`           | Build your production site to `./dist/`          |
 | `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run typecheck`       | Run `astro check` (type & content diagnostics)   |
+| `npm run typecheck`       | Generate Astro types and check TS/Astro files   |
 | `npm run lint`            | Format the project with Prettier                 |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro sync`  |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
 ## 🙏 Acknowledgments

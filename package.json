@@ -16,27 +16,27 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev --host",
-    "build": "astro check && astro build",
+    "build": "npm run typecheck && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "typecheck": "astro check",
+    "typecheck": "astro sync && tsc --noEmit --runExternalCode",
     "lint": "prettier . --write",
     "author": "open https://github.com/vinitshahdeo",
     "demo": "open https://vinitshahdeo.com"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.9",
     "@astrojs/partytown": "^2.1.7",
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.3.1",
     "astro": "^7.0.2",
     "astro-icon": "^1.1.5",
     "tailwindcss": "^4.3.1",
-    "typescript": "^6.0.3"
+    "typescript": "7.1.0-dev.20261018.1"
   },
   "devDependencies": {
+    "@astrojs/ts-content-mapper": "^0.2.0",
     "@iconify-json/mdi": "^1.2.3",
-    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/typography": "^0.5.4",
     "prettier": "^3.8.4",
     "prettier-plugin-astro": "^1.0.0"
   },
