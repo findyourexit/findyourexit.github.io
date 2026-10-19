@@ -14,20 +14,47 @@ import ResumeItem from "../components/ResumeItem.astro";
     <h2 class="mb-8 sm:mb-0 opacity-60">Work</h2>
     <div>
       <div class="mb-6">
-        I've got quite a few tools in my belt, but at the moment, I'm
-        particularly fond of
-        <span class="gradient-link glowing-animation">Kotlin</span>, <span
-          class="gradient-link glowing-animation">Kotlin Multiplatform</span
-        >, and <span class="gradient-link glowing-animation"
-          >Compose Multiplatform</span
-        > – <i
-          >it's pretty clear that I'm jazzing in the cross-platform mobile
-          engineering space, at the moment!</i
-        >
+        <p>
+          My career spans hands-on software engineering, technical advisory and
+          business leadership, underpinned by more than two decades of coding
+          experience. From 2010 to 2024, my independent engineering and consulting
+          work included technical architecture, fractional executive support and
+          strategic planning for startups moving from early investment towards
+          scale-up, often alongside my primary employment.
+        </p>
+        <p class="mt-5">
+          Before Forcite, I served as Senior Director of Marketing at VOZZ Helmets,
+          leading a small creative team and working with executive management and
+          the board to align brand, product and marketing strategy with business
+          goals. I also provided technical advisory and data analysis for Helmet
+          Collective, helping plan business systems and prepare e-commerce data
+          ahead of its launch.
+        </p>
+        <p class="mt-5">
+          Forcite and GoPro are the more recent chapters of that career. I joined
+          Forcite in 2018, bringing that engineering and commercial experience to
+          its mobile apps, backend services and connected helmet systems. Across
+          lead development, engineering management and CTO roles, my work combined
+          hands-on delivery with technical strategy and leadership across software,
+          firmware and electrical engineering.
+        </p>
+        <p class="mt-5">
+          Following Forcite's acquisition, I continued at GoPro, where my focus is
+          software engineering leadership and product delivery, with deep
+          involvement in firmware and contributions to electrical engineering
+          decisions.
+        </p>
       </div>
+      <h3 class="font-medium mb-4">Recent roles</h3>
       <div class="grid grid-cols-1 group">
         {recentlyPageContent.work.items.map((item) => <ResumeItem {...item} />)}
       </div>
+      <p class="mt-6 text-sm opacity-70">
+        The roles above are a snapshot of my recent experience, not the start of
+        my career. For the broader work history, visit my
+        <a href="https://www.linkedin.com/in/tom-larcher/" target="_blank"
+          rel="noopener noreferrer" class="underline-hover">LinkedIn profile</a>.
+      </p>
     </div>
   </section>
 </Layout>

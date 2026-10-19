@@ -51,9 +51,9 @@ export const navBarLinks: NavBarLink[] = [
 // Home (/)
 export const homePageContent: HomePageContent = {
   seo: {
-    title: "Tom Larcher | Dev",
+    title: "Tom Larcher | Engineering Leader",
     description:
-      "Meet Tom Larcher, Senior Manager of Software Engineering at GoPro, formerly Chief Technology Officer (CTO) at Forcite. A passionate and motivated technologist from Australia, with a broad range of specialisations and expertise.",
+      "Engineering leader at GoPro, formerly CTO at Forcite. More than two decades of coding experience across software, firmware and connected products.",
     image: openGraphImage,
     domain: "tomlarcher.com",
     url: "https://tomlarcher.com",
@@ -101,12 +101,12 @@ export const aboutPageContent: AboutPageContent = {
       Senior Manager, Software Engineering at GoPro | Former Chief Technology Officer (CTO) at Forcite | Current obsessing over Kotlin Multiplatform & Compose Multiplatform | Based in Sydney, Australia
     `,
     image_l: {
-      url: "/img/tom-larcher.png",
-      alt: "Tom Larcher",
+      url: "/img/tom-vozz-burnout-mural.jpg",
+      alt: "Tom at the Vozz burnout mural (feat. Tom)",
     },
     image_r: {
-      url: "/img/tom-larcher-2023.jpeg",
-      alt: "Tom Larcher",
+      url: "/img/tom-monza-via-enzo-ferrari.jpg",
+      alt: "Tom on Via Enzo Ferrari in Monza",
     },
   },
   connect: {
